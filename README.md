@@ -25,7 +25,8 @@
 
 ### 웹 스토리지 
  웹의 데이터를 클라이언트에 저장할 수 있는 새로운 자료구조로 localStorage sessionStorage가 있다.
-기존 Cookie와는 다르게 객체정보를 저장 가능하고,최대 용량이나 storage의 갯수의 제한이 없다, 그리고 만료기간의 설정이 없다.LocalStorage
+기존 Cookie와는 다르게 객체정보를 저장 가능하고,최대 용량이나 storage의 갯수의 제한이 없다, 그리고 만료기간의 설정이 없다.
+LocalStorage
 저장한 데이터를 명시적으로 지우지 않는 이상 영구적으로 보관이 가능하다. 앞서 말한대로 도메인마다 별도로 로컬 스토로지가 생성된다. Windows 전역 객체의 LocalStorage라는 컬렉션을 통해 저장과 조회가 이루어진다.
 SessionStorage
 SessionStorage는 데이터의 지속성과 액세스 범위에 특수한 제한이 존재한다. SessionStorage는 windows 전역 객체의 sessionStorage라는 컬렉션을 통해 저장과 조회가 이루어진다.
@@ -58,11 +59,16 @@ process.nextTick, Promise, Object.observe, MutationObserver
 
 ### 리코일을 쓰는 이유
 기존 리덕스같은 애들은 초기 세팅값이 너무 컸고 리액트와는 별게로 상태관리 로직이 돌아갔기 떄문에 이를 해결하기위해 Recoil이 나왔다. 리코일은 컨텍스트 API에서 부분적인 상태를 관리하는게 불편했고 리코일은 이런 불편함을 해소가능하다.<br>
-즉 Context 에서는 상태변경시, 구독한 하위 컴포넌트들이 모두 리렌더링 되는 문제가 있는데, Recoil 은 atom, selector 를 구독하면 구독한 컴포넌트만 리렌더링이 일어나며 해당 값이 Hook 기반으로 작성되어 있어서, 코드를 작성하기 용이하고 코드의 재사용성이 높다.
+즉 Context 에서는 상태변경시, 구독한 하위 컴포넌트들이 모두 리렌더링 되는 문제가 있는데, Recoil 은 atom, selector 를 구독하면 구독한 컴포넌트만 리렌더링이 일어나며 해당 값이 Hook 기반으로 작성되어 있어서, 코드를 작성하기 용이하고 코드의 재사용성이 높다.(리액트스럽다) 
+고로 상태관리도구로써 context Api를 사용하기보다는 Context Api는 props drilling을 위해서 사용하자.
 
 ### 리액트를 쓰는 이유
 기존 Dom과는 다르게 Vdom을 이용해서 불필요한 렌더링을 막을 수 있다. <br>
 html을 재사용이 가능하다. <br>
 SPA를 만들기 위한 좋은 라이브러리다. <br>
 명령형으로 Dom을 직접 조작하는 바닐라 자바스크립트처럼 구현하지 않아도 된다.
+
+### 클로저
+클로저는 자신이 생성될 때의 환경을 기억하고, 그를 사용하는 함수이다. 즉 환경이란 Lexical Environment를 지칭하는데 이는 본인이 있던 함수가 종료됐을때 사라지는게 맞지만 자바스크립트의 GC(garbage Collecting)은 해당 클로저가 Lexical Environment를 지칭하고 있다면 이 환경을 지우지 않는다. 그래서 사용이 가능하다.
+클로저는 리액트에서 useState , useEffect같은 훅에서도 클로저를 사용해서 만들었다.
 
